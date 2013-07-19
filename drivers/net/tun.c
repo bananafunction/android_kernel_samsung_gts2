@@ -780,6 +780,11 @@ static netdev_tx_t tun_net_xmit(struct sk_buff *skb, struct net_device *dev)
 			  >= dev->tx_queue_len / tun->numqueues)
 		goto drop;
 
+	if (skb->sk) {
+		sock_tx_timestamp(skb->sk, &skb_shinfo(skb)->tx_flags);
+		sw_tx_timestamp(skb);
+	}
+
 	/* Orphan the skb - required as we might hang on to it
 	 * for indefinite time. */
 	if (unlikely(skb_orphan_frags(skb, GFP_ATOMIC)))
@@ -1608,7 +1613,6 @@ static int tun_sendmsg(struct kiocb *iocb, struct socket *sock,
 	return ret;
 }
 
-
 static int tun_recvmsg(struct kiocb *iocb, struct socket *sock,
 		       struct msghdr *m, size_t total_len,
 		       int flags)
@@ -1620,8 +1624,13 @@ static int tun_recvmsg(struct kiocb *iocb, struct socket *sock,
 	if (!tun)
 		return -EBADFD;
 
-	if (flags & ~(MSG_DONTWAIT|MSG_TRUNC)) {
+	if (flags & ~(MSG_DONTWAIT|MSG_TRUNC|MSG_ERRQUEUE)) {
 		ret = -EINVAL;
+		goto out;
+	}
+	if (flags & MSG_ERRQUEUE) {
+		ret = sock_recv_errqueue(sock->sk, m, total_len,
+					 SOL_PACKET, TUN_TX_TIMESTAMP);
 		goto out;
 	}
 	ret = tun_do_read(tun, tfile, iocb, m->msg_iov, total_len,
@@ -2480,6 +2489,7 @@ static const struct ethtool_ops tun_ethtool_ops = {
 	.get_msglevel	= tun_get_msglevel,
 	.set_msglevel	= tun_set_msglevel,
 	.get_link	= ethtool_op_get_link,
+	.get_ts_info	= ethtool_op_get_ts_info,
 };
 
 
