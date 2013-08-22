@@ -1590,7 +1590,7 @@ static int hub_configure(struct usb_hub *hub,
 			goto fail_keep_maxchild;
 		}
 	}
-	
+
 	usb_hub_adjust_deviceremovable(hdev, hub->descriptor);
 
 	hub_activate(hub, HUB_INIT);
