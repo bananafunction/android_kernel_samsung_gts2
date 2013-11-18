@@ -886,10 +886,10 @@ int ping_recvmsg(struct kiocb *iocb, struct sock *sk, struct msghdr *msg,
 
 	/* Copy the address and add cmsg data. */
 	if (family == AF_INET) {
-		struct sockaddr_in *sin = (struct sockaddr_in *)msg->msg_name;
 		
-		if(sin)
+		if(msg->msg_name)
 		{
+			struct sockaddr_in *sin = (struct sockaddr_in *)msg->msg_name;
 			sin->sin_family = AF_INET;
 			sin->sin_port = 0 /* skb->h.uh->source */;
 			sin->sin_addr.s_addr = ip_hdr(skb)->saddr;
@@ -904,11 +904,11 @@ int ping_recvmsg(struct kiocb *iocb, struct sock *sk, struct msghdr *msg,
 	} else if (family == AF_INET6) {
 		struct ipv6_pinfo *np = inet6_sk(sk);
 		struct ipv6hdr *ip6 = ipv6_hdr(skb);
-		struct sockaddr_in6 *sin6 =
-			(struct sockaddr_in6 *)msg->msg_name;
 		
-		if(sin6)
+		if(msg->msg_name)
 		{
+			struct sockaddr_in6 *sin6 =
+				(struct sockaddr_in6 *)msg->msg_name;
 			sin6->sin6_family = AF_INET6;
 			sin6->sin6_port = 0;
 			sin6->sin6_addr = ip6->saddr;
