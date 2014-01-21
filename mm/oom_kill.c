@@ -117,7 +117,7 @@ struct task_struct *find_lock_task_mm(struct task_struct *p)
 	t = NULL;
 found:
 	rcu_read_unlock();
- 
+
 	return t;
 }
 
