@@ -3516,7 +3516,7 @@ static int snd_soc_dai_link_event(struct snd_soc_dapm_widget *w,
 
 	default:
 		BUG();
-		return -EINVAL;
+		ret = -EINVAL;
 	}
 
 out:
