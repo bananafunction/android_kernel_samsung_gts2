@@ -497,6 +497,9 @@ static int snd_timer_stop1(struct snd_timer_instance *timeri, bool stop)
 	int result = 0;
 	unsigned long flags;
 
+	if (snd_BUG_ON(!timeri))
+		return -ENXIO;
+
 	timer = timeri->timer;
 	if (!timer)
 		return -EINVAL;
