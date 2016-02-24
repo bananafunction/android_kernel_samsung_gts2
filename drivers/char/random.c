@@ -1566,6 +1566,9 @@ unsigned long get_random_long(void)
 	__u32 *hash;
 	unsigned long ret;
 
+	if (arch_get_random_long(&ret))
+		return ret;
+
 	hash = get_cpu_var(get_random_int_hash);
 
 	hash[0] += current->pid + jiffies + get_cycles();
