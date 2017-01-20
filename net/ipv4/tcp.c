@@ -429,10 +429,8 @@ void tcp_init_sock(struct sock *sk)
 	sk->sk_sndbuf = sysctl_tcp_wmem[1];
 	sk->sk_rcvbuf = sysctl_tcp_rmem[1];
 
-	local_bh_disable();
 	sock_update_memcg(sk);
 	sk_sockets_allocated_inc(sk);
-	local_bh_enable();
 }
 EXPORT_SYMBOL(tcp_init_sock);
 

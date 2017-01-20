@@ -733,6 +733,7 @@ void inet_csk_destroy_sock(struct sock *sk)
 	sk_refcnt_debug_release(sk);
 
 	percpu_counter_dec(sk->sk_prot->orphan_count);
+
 	sock_put(sk);
 }
 EXPORT_SYMBOL(inet_csk_destroy_sock);
