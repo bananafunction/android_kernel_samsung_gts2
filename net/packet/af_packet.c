@@ -3201,6 +3201,8 @@ packet_setsockopt(struct socket *sock, int level, int optname, char __user *optv
 			ret = 0;
 		}
 		release_sock(sk);
+		if (val > INT_MAX)
+			return -EINVAL;
 		return ret;
 	}
 	case PACKET_LOSS:
