@@ -3193,6 +3193,8 @@ packet_setsockopt(struct socket *sock, int level, int optname, char __user *optv
 			return -EINVAL;
 		if (copy_from_user(&val, optval, sizeof(val)))
 			return -EFAULT;
+		if (val > INT_MAX)
+			return -EINVAL;
 		lock_sock(sk);
 		if (po->rx_ring.pg_vec || po->tx_ring.pg_vec) {
 			ret = -EBUSY;
@@ -3201,8 +3203,6 @@ packet_setsockopt(struct socket *sock, int level, int optname, char __user *optv
 			ret = 0;
 		}
 		release_sock(sk);
-		if (val > INT_MAX)
-			return -EINVAL;
 		return ret;
 	}
 	case PACKET_LOSS:
