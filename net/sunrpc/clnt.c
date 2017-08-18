@@ -1674,6 +1674,14 @@ call_connect_status(struct rpc_task *task)
 		task->tk_action = call_timeout;
 		return;
 	case -ECONNREFUSED:
+		/* A positive refusal suggests a rebind is needed. */
+		if (RPC_IS_SOFTCONN(task))
+			break;
+		if (clnt->cl_autobind) {
+			rpc_force_rebind(clnt);
+			task->tk_action = call_bind;
+			return;
+		}
 	case -ECONNRESET:
 	case -ENETUNREACH:
 		if (RPC_IS_SOFTCONN(task))
