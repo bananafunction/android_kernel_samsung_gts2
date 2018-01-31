@@ -2576,6 +2576,8 @@ static unsigned int binder_poll(struct file *filp,
 	binder_lock(__func__);
 
 	thread = binder_get_thread(proc);
+	if (!thread)
+		return POLLERR;
 
 	thread->looper |= BINDER_LOOPER_STATE_POLL;
 
