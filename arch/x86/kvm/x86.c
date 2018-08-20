@@ -5305,14 +5305,12 @@ static void kvm_set_mmio_spte_mask(void)
 	mask = ((1ull << (62 - maxphyaddr + 1)) - 1) << maxphyaddr;
 	mask |= 1ull;
 
-#ifdef CONFIG_X86_64
 	/*
 	 * If reserved bit is not supported, clear the present bit to disable
 	 * mmio page fault.
 	 */
-	if (maxphyaddr == 52)
+	if (IS_ENABLED(CONFIG_X86_64) && maxphyaddr == 52)
 		mask &= ~1ull;
-#endif
 
 	kvm_mmu_set_mmio_spte_mask(mask);
 }
