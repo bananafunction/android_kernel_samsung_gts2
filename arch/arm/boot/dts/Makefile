@@ -60,6 +60,9 @@ dtb-$(CONFIG_ARCH_DOVE) += dove-cm-a510.dtb \
 #	exynos5422-smdk5422.dtb \
 #	exynos5430-xyref5430.dtb \
 #	exynos5440-ssdk5440.dtb
+dtb-$(CONFIG_ARCH_EXYNOS) += exynos5433-gts210wifi_eur_open_06.dtb \
+	exynos5433-gts210wifi_eur_open_05.dtb \
+	exynos5433-gts210wifi_eur_open_04.dtb
 dtb-$(CONFIG_ARCH_HIGHBANK) += highbank.dtb \
 	ecx-2000.dtb
 dtb-$(CONFIG_ARCH_INTEGRATOR) += integratorap.dtb \
