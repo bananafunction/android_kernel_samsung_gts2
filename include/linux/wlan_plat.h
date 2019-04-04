@@ -15,13 +15,25 @@
 #ifndef _LINUX_WLAN_PLAT_H_
 #define _LINUX_WLAN_PLAT_H_
 
+#include <linux/version.h>
+
+#if defined(CONFIG_WIFI_CONTROL_FUNC)
+#if	(LINUX_VERSION_CODE >= KERNEL_VERSION(3, 10, 58))
+#define	WLAN_PLAT_NODFS_FLAG	0x01
+#endif
+#endif /* CONFIG_WIFI_CONTROL_FUNC */
+
 struct wifi_platform_data {
 	int (*set_power)(int val);
 	int (*set_reset)(int val);
 	int (*set_carddetect)(int val);
 	void *(*mem_prealloc)(int section, unsigned long size);
 	int (*get_mac_addr)(unsigned char *buf);
+#if	(LINUX_VERSION_CODE >= KERNEL_VERSION(3, 10, 58))
+	void *(*get_country_code)(char *ccode, u32 flags);
+#else
 	void *(*get_country_code)(char *ccode);
+#endif
 };
 
-#endif
+#endif /* _LINUX_WLAN_PLAT_H_ */
