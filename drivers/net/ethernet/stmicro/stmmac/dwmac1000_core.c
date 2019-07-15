@@ -144,6 +144,12 @@ static void dwmac1000_set_filter(struct net_device *dev, int id)
 			dwmac1000_set_umac_addr(ioaddr, ha->addr, reg);
 			reg++;
 		}
+
+		while (reg <= perfect_addr_number) {
+			writel(0, ioaddr + GMAC_ADDR_HIGH(reg));
+			writel(0, ioaddr + GMAC_ADDR_LOW(reg));
+			reg++;
+		}
 	}
 
 #ifdef FRAME_FILTER_DEBUG
