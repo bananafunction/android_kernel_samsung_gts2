@@ -3714,6 +3714,11 @@ void hci_event_packet(struct hci_dev *hdev, struct sk_buff *skb)
 	struct hci_event_hdr *hdr = (void *) skb->data;
 	__u8 event = hdr->evt;
 
+	if (!event) {
+		bt_dev_warn(hdev, "Received unexpected HCI Event 00000000");
+		goto done;
+	}
+
 	hci_dev_lock(hdev);
 
 	/* Received events are (currently) only needed when a request is
@@ -3909,6 +3914,7 @@ void hci_event_packet(struct hci_dev *hdev, struct sk_buff *skb)
 		break;
 	}
 
+done:
 	kfree_skb(skb);
 	hdev->stat.evt_rx++;
 }
