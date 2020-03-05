@@ -609,7 +609,9 @@ repeat:
 	delay_msecs = top->delay_secs * 1000;
 	tcsetattr(0, TCSANOW, &tc);
 	/* trash return*/
-	getc(stdin);
+	clearerr(stdin);
+	if (poll(&stdin_poll, 1, 0) > 0)
+		getc(stdin);
 
 	while (!done) {
 		perf_top__print_sym_table(top);
