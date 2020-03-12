@@ -3983,7 +3983,8 @@ static inline int l2cap_config_req(struct l2cap_conn *conn,
 	if (!chan)
 		return -ENOENT;
 
-	if (chan->state != BT_CONFIG && chan->state != BT_CONNECT2) {
+	if (chan->state != BT_CONFIG && chan->state != BT_CONNECT2 &&
+		chan->state != BT_CONNECTED) {
 		struct l2cap_cmd_rej_cid rej;
 
 		rej.reason = __constant_cpu_to_le16(L2CAP_REJ_INVALID_CID);
