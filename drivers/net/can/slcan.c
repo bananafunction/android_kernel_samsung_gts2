@@ -146,6 +146,8 @@ static void slc_bump(struct slcan *sl)
 	unsigned long ultmp;
 	char cmd = sl->rbuff[0];
 
+	memset(&cf, 0, sizeof(cf));
+
 	if ((cmd != 't') && (cmd != 'T') && (cmd != 'r') && (cmd != 'R'))
 		return;
 
@@ -171,8 +173,6 @@ static void slc_bump(struct slcan *sl)
 
 	if ((cmd | 0x20) == 'r') /* RTR frame */
 		cf.can_id |= CAN_RTR_FLAG;
-
-	*(u64 *) (&cf.data) = 0; /* clear payload */
 
 	for (i = 0, dlc_pos++; i < cf.can_dlc; i++) {
 		tmp = hex_to_bin(sl->rbuff[dlc_pos++]);
