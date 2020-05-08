@@ -271,6 +271,8 @@ static int node_probe(struct device *dev)
 
 	name_len = fw_csr_string(fw_unit(dev)->directory, CSR_MODEL,
 				 name, sizeof(name));
+	if (name_len < 0)
+		return name_len;
 	for (i = ARRAY_SIZE(model_names); --i; )
 		if (strlen(model_names[i]) <= name_len &&
 		    strncmp(name, model_names[i], name_len) == 0)
