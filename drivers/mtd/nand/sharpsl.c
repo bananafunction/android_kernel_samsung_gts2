@@ -191,7 +191,7 @@ static int sharpsl_nand_probe(struct platform_device *pdev)
 	return 0;
 
 err_add:
-	nand_release(&sharpsl->mtd);
+	nand_cleanup(this);
 
 err_scan:
 	platform_set_drvdata(pdev, NULL);
