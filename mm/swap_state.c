@@ -328,7 +328,7 @@ struct page *read_swap_cache_async(swp_entry_t entry, gfp_t gfp_mask,
 		/*
 		 * call radix_tree_preload() while we can wait.
 		 */
-		err = radix_tree_preload(gfp_mask & GFP_KERNEL);
+		err = radix_tree_preload(gfp_mask & GFP_RECLAIM_MASK);
 		if (err)
 			break;
 
