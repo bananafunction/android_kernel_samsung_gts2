@@ -149,14 +149,19 @@ static void vfio_pci_release(void *device_data)
 
 	if (atomic_dec_and_test(&vdev->refcnt)) {
 		vfio_pci_disable(vdev);
+		mutex_lock(&vdev->igate);
 		if (vdev->err_trigger) {
 			eventfd_ctx_put(vdev->err_trigger);
 			vdev->err_trigger = NULL;
 		}
+		mutex_unlock(&vdev->igate);
+
+		mutex_lock(&vdev->igate);
 		if (vdev->req_trigger) {
 			eventfd_ctx_put(vdev->req_trigger);
 			vdev->req_trigger = NULL;
 		}
+		mutex_unlock(&vdev->igate);
 	}
 
 	module_put(THIS_MODULE);
