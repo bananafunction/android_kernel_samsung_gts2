@@ -2285,8 +2285,11 @@ static int referenced_filters(struct dyn_ftrace *rec)
 	int cnt = 0;
 
 	for (ops = ftrace_ops_list; ops != &ftrace_list_end; ops = ops->next) {
-		if (ops_references_rec(ops, rec))
-		    cnt++;
+		if (ops_references_rec(ops, rec)) {
+			cnt++;
+			if (ops->flags & FTRACE_OPS_FL_SAVE_REGS)
+				rec->flags |= FTRACE_FL_REGS;
+		}
 	}
 
 	return cnt;
@@ -2336,7 +2339,7 @@ static int ftrace_update_code(struct module *mod)
 			p = &pg->records[i];
 			if (test)
 				cnt += referenced_filters(p);
-			p->flags = cnt;
+			p->flags += cnt;
 
 			/*
 			 * Do the initial record conversion from mcount jump
