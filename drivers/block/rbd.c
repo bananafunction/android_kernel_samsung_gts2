@@ -3623,6 +3623,9 @@ static ssize_t rbd_image_refresh(struct device *dev,
 	struct rbd_device *rbd_dev = dev_to_rbd_dev(dev);
 	int ret;
 
+	if (!capable(CAP_SYS_ADMIN))
+		return -EPERM;
+
 	ret = rbd_dev_refresh(rbd_dev);
 	if (ret)
 		rbd_warn(rbd_dev, ": manual header refresh error (%d)\n", ret);
@@ -5063,6 +5066,9 @@ static ssize_t rbd_add(struct bus_type *bus,
 	bool read_only;
 	int rc = -ENOMEM;
 
+	if (!capable(CAP_SYS_ADMIN))
+		return -EPERM;
+
 	if (!try_module_get(THIS_MODULE))
 		return -ENODEV;
 
@@ -5183,6 +5189,9 @@ static ssize_t rbd_remove(struct bus_type *bus,
 	unsigned long ul;
 	bool already = false;
 	int ret;
+
+	if (!capable(CAP_SYS_ADMIN))
+		return -EPERM;
 
 	ret = strict_strtoul(buf, 10, &ul);
 	if (ret)
