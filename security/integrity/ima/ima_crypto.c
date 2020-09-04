@@ -171,6 +171,8 @@ int __init ima_calc_boot_aggregate(char *digest)
 		ima_pcrread(i, pcr_i);
 		/* now accumulate with current aggregate */
 		rc = crypto_shash_update(&desc.shash, pcr_i, IMA_DIGEST_SIZE);
+		if (rc != 0)
+			return rc;
 	}
 	if (!rc)
 		crypto_shash_final(&desc.shash, digest);
