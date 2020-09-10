@@ -114,7 +114,7 @@ static inline void sb800_prefetch(struct ohci_hcd *ohci, int on)
 
 
 /* Some boards misreport power switching/overcurrent */
-static bool distrust_firmware = 1;
+static bool distrust_firmware;
 module_param (distrust_firmware, bool, 0);
 MODULE_PARM_DESC (distrust_firmware,
 	"true to distrust firmware power/overcurrent setup");
