@@ -1569,7 +1569,10 @@ static int nl80211_send_wiphy(struct cfg80211_registered_device *dev,
 		 * case we'll continue with more data in the next round,
 		 * but break unconditionally so unsplit data stops here.
 		 */
-		(*split_start)++;
+		if (*split_start)
+			(*split_start)++;
+		else
+			(*split_start) = 0;
 		break;
 	case 9:
 		if (dev->wiphy.extended_capabilities &&
