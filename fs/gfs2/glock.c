@@ -790,7 +790,8 @@ int gfs2_glock_get(struct gfs2_sbd *sdp, u64 number,
 		spin_unlock_bucket(hash);
 		kfree(gl->gl_lksb.sb_lvbptr);
 		kmem_cache_free(cachep, gl);
-		atomic_dec(&sdp->sd_glock_disposal);
+		if (atomic_dec_and_test(&sdp->sd_glock_disposal))
+			wake_up(&sdp->sd_glock_wait);
 		gl = tmp;
 	} else {
 		hlist_bl_add_head_rcu(&gl->gl_list, &gl_hash_table[hash]);
