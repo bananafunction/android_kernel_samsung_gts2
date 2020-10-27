@@ -692,8 +692,8 @@ void gfs2_clear_rgrpd(struct gfs2_sbd *sdp)
 		}
 
 		gfs2_free_clones(rgd);
-		kfree(rgd->rd_bits);
 		return_all_reservations(rgd);
+		kfree(rgd->rd_bits);
 		kmem_cache_free(gfs2_rgrpd_cachep, rgd);
 	}
 }
