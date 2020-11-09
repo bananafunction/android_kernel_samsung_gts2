@@ -812,7 +812,7 @@ static int x25_connect(struct socket *sock, struct sockaddr *uaddr,
 	sock->state = SS_CONNECTED;
 	rc = 0;
 out_put_neigh:
-	if (rc)
+	if (rc && x25->neighbour)
 		x25_neigh_put(x25->neighbour);
 out_put_route:
 	x25_route_put(rt);
