@@ -621,6 +621,9 @@ static struct vmci_queue *qp_host_alloc_queue(u64 size)
 	const size_t queue_page_size =
 	    num_pages * sizeof(*queue->kernel_if->page);
 
+	if (queue_size + queue_page_size > KMALLOC_MAX_SIZE)
+		return NULL;
+
 	queue = kzalloc(queue_size + queue_page_size, GFP_KERNEL);
 	if (queue) {
 		queue->q_header = NULL;
