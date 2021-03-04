@@ -20,6 +20,7 @@ hostprogs-$(CONFIG_ASN1)	 += asn1_compiler
 
 HOSTCFLAGS_sortextable.o = -I$(srctree)/tools/include
 HOSTCFLAGS_asn1_compiler.o = -I$(srctree)/include
+HOSTCFLAGS_sign-file.o = $(CRYPTO_CFLAGS)
 
 always		:= $(hostprogs-y) $(hostprogs-m)
 
