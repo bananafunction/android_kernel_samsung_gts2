@@ -490,6 +490,9 @@ void l2cap_chan_set_defaults(struct l2cap_chan *chan)
 	chan->ack_win = L2CAP_DEFAULT_TX_WINDOW;
 	chan->sec_level = BT_SECURITY_LOW;
 
+	chan->conf_state = 0;
+	set_bit(CONF_NOT_COMPLETE, &chan->conf_state);
+
 	set_bit(FLAG_FORCE_ACTIVE, &chan->flags);
 }
 
