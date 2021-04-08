@@ -838,8 +838,7 @@ static int set_serial_info(struct acm *acm,
 			acm->port.close_delay  = close_delay;
 			acm->port.closing_wait = closing_wait;
 		}
-	} else
-		retval = -EOPNOTSUPP;
+	}
 
 	mutex_unlock(&acm->port.mutex);
 	return retval;
