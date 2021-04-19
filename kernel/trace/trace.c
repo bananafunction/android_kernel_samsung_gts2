@@ -6068,7 +6068,7 @@ static int allocate_trace_buffers(struct trace_array *tr, int size)
 	 * calls in tracing, because something might get triggered within a
 	 * page fault trace event!
 	 */
-	vmalloc_sync_mappings();
+	vmalloc_sync_all();
 
 	return 0;
 }
