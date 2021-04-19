@@ -96,6 +96,7 @@
 #include <net/xfrm.h>
 #include <net/inet_common.h>
 #include <net/ip_fib.h>
+#include <linux/random.h>
 
 /*
  *	Build xmit assembly blocks
