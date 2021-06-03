@@ -482,6 +482,11 @@ nfs_get_client(const struct nfs_client_initdata *cl_init,
 	struct nfs_net *nn = net_generic(cl_init->net, nfs_net_id);
 	const struct nfs_rpc_ops *rpc_ops = cl_init->nfs_mod->rpc_ops;
 
+	if (cl_init->hostname == NULL) {
+		WARN_ON(1);
+		return ERR_PTR(-EINVAL);
+	}
+
 	dprintk("--> nfs_get_client(%s,v%u)\n",
 		cl_init->hostname ?: "", rpc_ops->version);
 
