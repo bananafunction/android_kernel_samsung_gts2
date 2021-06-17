@@ -749,7 +749,6 @@ __mod_timer_on(struct timer_list *timer, int cpu,
 	unsigned long flags;
 	int ret = 0;
 
-	timer_stats_timer_set_start_info(timer);
 	BUG_ON(!timer->function);
 
 	base = lock_timer_base(timer, &flags);
